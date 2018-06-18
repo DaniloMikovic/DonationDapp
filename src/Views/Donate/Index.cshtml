@@ -1,0 +1,157 @@
+﻿@model DonateViewModel
+
+<div class="panel-body">
+    <div class="form-horizontal">
+        <h4>Doniraj</h4>
+        <form asp-controller="Donate" asp-action="Donate" method="post" disabled>
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label asp-for="Campaign" class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <select asp-for="Campaign" asp-items="@(new SelectList(Model.Campaigns,"Address","Name"))" class="form-control"></select>
+                        <span asp-validation-for="Campaign" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label col-md-3"></label>
+                    <div class="col-md-6">
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <input asp-for="Balance" class="form-control" readonly />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PrivateKey" class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <input asp-for="PrivateKey" class="form-control" />
+                        <span asp-validation-for="PrivateKey" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Fee" class="control-label col-md-3"></label>
+                    <div class="col-md-9">
+                        <input asp-for="Fee" class="form-control" readonly />
+                        <span asp-validation-for="Fee" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button class="btn btn-primary" type="button" onclick="donate()">Doniraj</button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div id="alert" class="alert alert-success hidden">
+    <strong>Uspešna transakcija.</strong>  <a href="https://rinkeby.etherscan.io/tx/">poseti link</a>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Amount").change(function () {
+
+            var data = {
+                'Address': $("#Address").val(),
+                'Campaign': $("#Campaign").val(),
+                'Amount': $("#Amount").val()
+            };
+
+            $.ajax({
+                url: '/Donate/GetEstimatedFee',
+                type: 'GET',
+                data: data,
+                datatype: 'json',
+                success: function (response) {
+                    if (response.succeeded) {
+                        $('#Fee').val(response.value)
+                    }
+                    else {
+                        $('#Fee').val('Transaction will fail')
+                    }
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        });
+
+        var wto;
+        $('#Address').change(function () {
+            var data = { 'Address': $("#Address").val() };
+
+            clearTimeout(wto);
+
+            wto = setTimeout(function () {
+                $.ajax({
+                    url: '/Donate/GetBalance',
+                    type: 'POST',
+                    data: data,
+                    datatype: 'json',
+                    success: function (response) {
+                        if (response.succeeded) {
+                            $('#Balance').val(response.value)
+                        }
+                        else {
+                            $('#Balance').val('Invalid account')
+                        }
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }, 1000);
+        });
+        
+    });
+    function donate() {
+
+        var data = {
+            'Address': $("#Address").val(),
+            'Campaign': $("#Campaign").val(),
+            'Amount': $("#Amount").val(),
+            'PrivateKey': $("#PrivateKey").val()
+        };
+
+        $.ajax({
+            url: '/Donate/Donate',
+            type: 'POST',
+            data: data,
+            datatype: 'json',
+            success: function (response) {
+                if (response.succeeded) {
+                    $("#alert").attr("href", "https://rinkeby.etherscan.io/tx/" + response.value).show();
+                    $("#alert").removeClass("hidden");
+                } else {
+                    alert("Transakcija nije uspela");
+
+                }
+                
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+
+    }
+
+</script>

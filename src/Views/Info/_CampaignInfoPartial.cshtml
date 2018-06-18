@@ -1,0 +1,55 @@
+﻿@model DonationInfoViewModel;
+@{
+    ViewData["Title"] = "Donacija";
+    var amountFormated = Model.DonationAmount / 1000000000000000000;
+    var goalFormated = Model.DonationGoal / 1000000000000000000;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Donacija</strong>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <tr>
+                                <th><label asp-for="StartDate"></label></th>
+                                <td>@Model.StartDate</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="EndDate"></label></th>
+                                <td>@Model.EndDate</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="Owner"></label></th>
+                                <td>@Model.Owner</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="Beneficiary"></label></th>
+                                <td>@Model.Beneficiary</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="DonationGoal"></label></th>
+                                <td>@goalFormated</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="DonationAmount"></label></th>
+                                <td>@amountFormated</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="NumberOfDonators"></label></th>
+                                <td>@Model.NumberOfDonators</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

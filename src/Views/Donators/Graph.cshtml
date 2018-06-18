@@ -1,0 +1,32 @@
+﻿@using ChartJSCore.Models;
+@{
+    ViewData["Title"] = "Donatori";
+}
+
+<div><canvas id="pieChart"></canvas></div>
+
+@{Chart chart = (Chart)ViewData["chart"]; }
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script>
+        function graphData()
+        {
+            var data = $("#Campaign").val()
+            $.ajax({
+                url: '/Donators/Graph',
+                type: 'GET',
+                data: data,
+                datatype: 'json',
+                success: function (response) {
+                    alert(response);
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+       
+        @Html.Raw(chart.CreateChartCode("pieChart"));
+    </script>
+}

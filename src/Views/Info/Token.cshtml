@@ -1,0 +1,44 @@
+﻿@model TokenInfoViewModel;
+@{
+    ViewData["Title"] = "Token";
+    var formated = Model.TotalSupply / 10000000000000000000;
+}
+<div class="row" style="height:50px;">
+
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Token</strong>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table">
+                            <tr>
+                                <th><label asp-for="Name"></label></th>
+                                <td>@Model.Name</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="Symbol"></label></th>
+                                <td>@Model.Symbol</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="TotalSupply"></label></th>
+                                <td>@formated</td>
+                            </tr>
+                            <tr>
+                                <th><label asp-for="Decimals"></label></th>
+                                <td>@Model.Decimals</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
