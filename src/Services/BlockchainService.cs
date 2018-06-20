@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DonacijeDapp.Services
@@ -18,9 +19,9 @@ namespace DonacijeDapp.Services
     public class BlockchainService
     {
         private readonly IGethClient _gethClient;
-        private readonly IOptions<Myconfig> _config;
+        private readonly IOptions<MyConfig> _config;
 
-        public BlockchainService(IGethClient gethClient, IOptions<Myconfig> config)
+        public BlockchainService(IGethClient gethClient, IOptions<MyConfig> config)
         {
             _gethClient = gethClient;
             _config = config;
@@ -75,8 +76,9 @@ namespace DonacijeDapp.Services
 
             try
             {
+                
                 var txCount = await _gethClient.Web3.Eth.Transactions.GetTransactionCount.SendRequestAsync(model.Address);
-                var encoded = Web3.OfflineTransactionSigner.SignTransaction(model.PrivateKey, "0x7F1d99eB4EB0F49332D21e8f65D3f6ADB650DF22", Web3.Convert.ToWei(new BigInteger(model.Amount)), txCount.Value);
+                var encoded = Web3.OfflineTransactionSigner.SignTransaction(model.PrivateKey, model.Campaign, Web3.Convert.ToWei(new BigInteger(model.Amount)), txCount.Value,new BigInteger(40000000000), new BigInteger(400000));
                 var txHash = await _gethClient.Web3.Eth.Transactions.SendRawTransaction.SendRequestAsync("0x" + encoded);
 
                 response.Value = txHash;
@@ -236,12 +238,13 @@ namespace DonacijeDapp.Services
                     graphData.Color = color;
 
                     response.Value.Add(graphData);
+                    response.Succeeded = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Message = ex.Message;
+                response.Succeeded = false;
             }
 
 

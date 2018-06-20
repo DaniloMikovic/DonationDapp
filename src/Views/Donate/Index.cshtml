@@ -59,7 +59,7 @@
     </div>
 </div>
 <div id="alert" class="alert alert-success hidden">
-    <strong>Uspešna transakcija.</strong>  <a href="https://rinkeby.etherscan.io/tx/">poseti link</a>
+    <strong>Uspešna transakcija.</strong>  <a id="link">poseti link</a>
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
@@ -139,7 +139,8 @@
             datatype: 'json',
             success: function (response) {
                 if (response.succeeded) {
-                    $("#alert").attr("href", "https://rinkeby.etherscan.io/tx/" + response.value).show();
+                    $("#alert").show();
+                    $("#link").attr("href", "https://rinkeby.etherscan.io/tx/" + response.value);
                     $("#alert").removeClass("hidden");
                 } else {
                     alert("Transakcija nije uspela");

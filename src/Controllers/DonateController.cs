@@ -21,11 +21,11 @@ namespace DonacijeDapp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var kampanje = await _blockchainService.GetCampaigns();
+            var campaings = await _blockchainService.GetCampaigns();
 
             var model = new DonateViewModel
             {
-                Campaigns = kampanje.Value
+                Campaigns = campaings.Value
             };
             return View(model);
         }

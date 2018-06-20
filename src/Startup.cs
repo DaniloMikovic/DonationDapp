@@ -28,7 +28,7 @@ namespace DonacijeDapp
 
             services.AddOptions();
 
-            services.Configure<Myconfig>(Configuration.GetSection("MyConfig"));
+            services.Configure<MyConfig>(Configuration.GetSection("MyConfig"));
 
             services.AddScoped<IGethClient, GethClient>();
             services.AddScoped<BlockchainService>();

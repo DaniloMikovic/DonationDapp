@@ -20,49 +20,21 @@ namespace DonacijeDapp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IOptions<Myconfig> _config;
+        private readonly IOptions<MyConfig> _config;
         private readonly IGethClient _gethClient;
 
-        public HomeController(IOptions<Myconfig> config, IGethClient gethClient)
+        public HomeController(IOptions<MyConfig> config, IGethClient gethClient)
         {
             _config = config;
             _gethClient = gethClient;
         }
         public IActionResult Index()
         {
-
-            //var ecKey = Nethereum.Signer.EthECKey.GenerateKey();
-            //var privateKey = ecKey.GetPrivateKey();
-            //var account = new Account(privateKey);
-
-
-            //var keyStoreService = new KeyStoreService();
-
-            //var fileName = keyStoreService.GenerateUTCFileName(account.Address);
-            //using (var newfile = System.IO.File.CreateText(fileName))
-            //{
-            //    //generate the encrypted and key store content as json. (The default uses pbkdf2)
-            //    var newJson = keyStoreService.EncryptAndGenerateDefaultKeyStoreAsJson("NSWD601069", account.PrivateKey.HexToByteArray(), account.Address);
-            //    newfile.Write(newJson);
-            //    newfile.Flush();
-            //}
-
-
-
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult SmartContract()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 

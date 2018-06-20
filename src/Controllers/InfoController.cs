@@ -14,16 +14,17 @@ namespace DonacijeDapp.Controllers
 {
     public class InfoController : Controller
     {
-        private readonly IOptions<Myconfig> _config;
+        private readonly IOptions<MyConfig> _config;
         private readonly IGethClient _gethClient;
         private readonly BlockchainService _blockchainService;
 
-        public InfoController(IOptions<Myconfig> config, IGethClient gethClient, BlockchainService blockchainService)
+        public InfoController(IOptions<MyConfig> config, IGethClient gethClient, BlockchainService blockchainService)
         {
             _config = config;
             _gethClient = gethClient;
             _blockchainService = blockchainService;
         }
+
         public IActionResult Index()
         {
             return View();
