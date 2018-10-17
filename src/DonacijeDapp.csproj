@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ChartJSCore" Version="1.2.4" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
     <PackageReference Include="Nethereum.Accounts" Version="2.4.0" />
     <PackageReference Include="Nethereum.JsonRpc.IpcClient" Version="2.4.0" />
